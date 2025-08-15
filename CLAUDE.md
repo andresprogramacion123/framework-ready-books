@@ -1,8 +1,63 @@
 # Claude Code Configuration
 
-## PDF Operations
+## Traducción Completa de Libros Técnicos
 
-### Extract chapter from PDF
+### 🚀 Proceso Completo: Extracción y Traducción por Capítulos
+
+Este es el flujo de trabajo completo para traducir un libro técnico entero dividiéndolo por capítulos:
+
+#### Paso 1: Definición de Capítulos por el Usuario
+El usuario debe especificar los rangos de páginas para cada capítulo:
+```
+"Extrae y traduce las siguientes secciones del PDF [nombre_archivo.pdf]:
+- Páginas [inicio-fin]: [nombre_capitulo1.pdf] → traducir a [nombre_capitulo1_es.md]
+- Páginas [inicio-fin]: [nombre_capitulo2.pdf] → traducir a [nombre_capitulo2_es.md]
+- Páginas [inicio-fin]: [nombre_capitulo3.pdf] → traducir a [nombre_capitulo3_es.md]
+[... continuar para todos los capítulos]
+
+Sigue el proceso de traducción documentado en CLAUDE.md"
+```
+
+#### Paso 2: Extracción Automática de Capítulos (pdftk)
+Claude Code ejecutará automáticamente los comandos pdftk para extraer cada capítulo:
+```bash
+pdftk libro.pdf cat 25-45 output capitulo1.pdf
+pdftk libro.pdf cat 46-68 output capitulo2.pdf
+pdftk libro.pdf cat 69-89 output capitulo3.pdf
+# ... para todos los capítulos especificados
+```
+
+#### Paso 3: Traducción Secuencial de Capítulos
+Una vez extraídos todos los PDFs de capítulos, Claude Code procederá a:
+1. Traducir cada capítulo individual manteniendo la estructura original
+2. Guardar cada traducción en formato Markdown (.md)
+3. Preservar código, figuras, referencias y terminología técnica
+
+#### Paso 4: Resultado Final
+Al completar el proceso tendrás:
+- ✅ Todos los capítulos individuales en PDF
+- ✅ Todas las traducciones completas en Markdown
+- ✅ Libro completo traducido y organizado por capítulos
+
+### 📋 Ejemplo de Comando Completo
+```
+"Extrae y traduce las siguientes secciones del PDF book/GraphRAG_Book.pdf:
+- Páginas 11-20: prefacio.pdf → traducir a prefacio_es.md
+- Páginas 21-36: capitulo1.pdf → traducir a capitulo1_es.md
+- Páginas 37-49: capitulo2.pdf → traducir a capitulo2_es.md
+- Páginas 50-64: capitulo3.pdf → traducir a capitulo3_es.md
+- Páginas 65-75: capitulo4.pdf → traducir a capitulo4_es.md
+- Páginas 76-89: capitulo5.pdf → traducir a capitulo5_es.md
+- Páginas 90-107: capitulo6.pdf → traducir a capitulo6_es.md
+- Páginas 108-135: capitulo7.pdf → traducir a capitulo7_es.md
+- Páginas 136-146: capitulo8.pdf → traducir a capitulo8_es.md
+
+Sigue el proceso de traducción documentado en CLAUDE.md"
+```
+
+## PDF Operations (Comandos Individuales)
+
+### Extract single chapter from PDF
 ```bash
 pdftk libro.pdf cat 25-45 output capitulo.pdf
 ```
@@ -39,16 +94,24 @@ Para realizar una traducción completa de documentos técnicos manteniendo estru
 - Mantener las referencias exactas a figuras, capítulos y secciones
 - Preservar los nombres de variables, funciones y comandos
 
-#### 5. Metodología implementada
-1. **Leer y analizar** el archivo PDF completo para entender estructura
-2. **Realizar traducción contextual** completa manteniendo estructura original
-3. **Preservar todos los elementos**: código, figuras, referencias técnicas
-4. **Crear archivo traducido** con formato y estructura idénticos
 
-#### Comando para solicitar traducción:
+### ⚙️ Metodología de Traducción Implementada
+
+#### Flujo de Trabajo para Traducción Individual:
+1. **Leer y analizar** el archivo PDF completo para entender estructura y contexto
+2. **Realizar traducción contextual** completa manteniendo estructura original  
+3. **Preservar todos los elementos**: código, figuras, referencias técnicas
+4. **Crear archivo traducido** en formato Markdown con estructura idéntica
+
+#### Comando para Traducción Individual:
 ```
 "Traduce el archivo [nombre_archivo] siguiendo el proceso de traducción documentado en CLAUDE.md, manteniendo la estructura original, los ejemplos de código, las referencias a figuras y todos los detalles técnicos exactamente como aparecen en el documento original"
 ```
+
+#### ⚠️ Consideraciones Importantes:
+- **Límites de Claude Code**: Para libros grandes (+150 páginas), el proceso puede agotar los límites de tokens
+- **Recomendación**: Usar el proceso por capítulos para libros extensos
+- **Gestión de memoria**: Cada capítulo se procesa independientemente para optimizar recursos
 
 ## Análisis Crítico: Sostenibilidad del Método de Traducción
 
